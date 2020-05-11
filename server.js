@@ -39,13 +39,15 @@ app.post("/submit", ({body}, res) => {
 */
 
 app.get("/exercise", (req, res) => {
-  db.Exercise.findOne({_id: mongojs.ObjectID(req.body._id)}, (err, data) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.json(data);
-    }
-  })
+  // db.Exercise.findOne({_id: mongojs.ObjectID(req.body._id)}, (err, data) => {
+  //   if (err) {
+  //     res.send(err);
+  //   } else {
+      res.send(exercise.html);
+
+      // res.json(data);
+  //   }
+  // })
 })
 
 
