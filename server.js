@@ -42,10 +42,11 @@ app.post("/submit", ({body}, res) => {
 */
 
 app.get("/exercise", (req, res) => {
-  db.Exercise.findOne({_id: mongojs.ObjectID(req.body._id)}, (err, data) => {
+  db.Exercise.findOne({_id: req.params.id}, (err, data) => {
     if (err) {
       res.send(err);
     } else {
+      // res.send(exercise.html);
       res.json(data);
     }
   })
