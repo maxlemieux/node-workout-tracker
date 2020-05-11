@@ -8,6 +8,8 @@ const db = require("./models");
 
 const app = express();
 
+const path = require('path');
+
 app.use(logger("dev"));
 
 app.use(express.urlencoded({ extended: true }));
@@ -19,7 +21,7 @@ const MongoOpts = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populate", MongoOpts);
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/exercise_db", MongoOpts);
 /*
 db.Library.create({ name: "Campus Library" })
   .then(dbLibrary => {
@@ -46,12 +48,15 @@ app.get("/exercise", (req, res) => {
     if (err) {
       res.send(err);
     } else {
-      // res.send(exercise.html);
-      res.json(data);
+      res.sendFile(path.join(__dirname + '/public/exercise.html'));
+      // res.json(data);
     }
   })
 })
 
+app.get("/stats", (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/stats.html'));
+})
 
 /*
 app.get("/library", (req, res) => {
