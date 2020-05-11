@@ -1,6 +1,5 @@
 const express = require("express");
 const logger = require("morgan");
-const mongojs = require("mongojs");
 const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 3000;
@@ -16,7 +15,11 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populate", { useNewUrlParser: true });
+const MongoOpts = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populate", MongoOpts);
 /*
 db.Library.create({ name: "Campus Library" })
   .then(dbLibrary => {
@@ -39,15 +42,13 @@ app.post("/submit", ({body}, res) => {
 */
 
 app.get("/exercise", (req, res) => {
-  // db.Exercise.findOne({_id: mongojs.ObjectID(req.body._id)}, (err, data) => {
-  //   if (err) {
-  //     res.send(err);
-  //   } else {
-      res.send(exercise.html);
-
-      // res.json(data);
-  //   }
-  // })
+  db.Exercise.findOne({_id: mongojs.ObjectID(req.body._id)}, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.json(data);
+    }
+  })
 })
 
 
