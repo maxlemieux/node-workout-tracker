@@ -23,7 +23,18 @@ module.exports = function(app) {
         res.json(err);
       });
   });
-  
+
+  // GET route for getting all of the exercises
+  app.get("/api/exercises", (req, res) => {
+    db.Exercise.find({})
+      .then(dbExercise => {
+        res.json(dbExercise);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  });
+
 
   // GET route for getting all of the workouts in a range
   app.get("/api/workouts/range", function(req, res) {
@@ -32,10 +43,18 @@ module.exports = function(app) {
     })
   });
   
-  // POST route for saving a new workouts
+  // POST route for saving a new workout
   app.post("/api/workouts", function(req, res) {
     const workout = req.body;
     db.WorkoutPlan.create({ workout }).then((result) => {
+      return res.json(result)
+    })
+  });
+
+  // POST route for saving a new exercise
+  app.post("/api/exercises", function(req, res) {
+    const exercise = req.body;
+    db.Exercise.create({ exercise }).then((result) => {
       return res.json(result)
     })
   });
