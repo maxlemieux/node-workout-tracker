@@ -12,17 +12,24 @@ var db = require("../models");
 // =============================================================
 module.exports = function(app) {
 
-  // GET route for getting all of the posts
+  // GET route for getting all of the workouts
   app.get("/api/workouts", function(req, res) {
-    // Add sequelize code to find all posts, and return them to the user with res.json
     db.WorkoutPlan.findAll().then((result) => {
       return res.json(result)
     })
   });
 
+
+  // GET route for getting all of the workouts in a range
+  app.get("/api/workouts/range", function(req, res) {
+    db.WorkoutPlan.findAll().then((result) => {
+      return res.json(result)
+    })
+  });
+  
   // PUT route for updating workouts
   app.put("/api/workouts/?id=:id", function(req, res) {
-    // Add code here to update a post using the values in req.body, where the id is equal to
+    // Add code here to update a workout using the values in req.body, where the id is equal to
     // req.body.id and return the result to the user using res.json
     const workout = req.body;
     db.WorkoutPlan.update({ workout }, {
