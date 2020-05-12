@@ -7,34 +7,45 @@
 
 // Requiring our Todo model
 var db = require("../models");
+// console.log(`WorkoutPlan required: ${db.WorkoutPlan}`);
 
 // Routes
 // =============================================================
 module.exports = function(app) {
 
   // GET route for getting all of the workouts
-  app.get("/api/workouts", function(req, res) {
-    db.WorkoutPlan.findAll().then((result) => {
-      return res.json(result)
-    })
+  app.get("/api/workouts", (req, res) => {
+    db.WorkoutPlan.find({})
+      .then(dbWorkoutPlan => {
+        res.json(dbWorkoutPlan);
+      })
+      .catch(err => {
+        res.json(err);
+      });
   });
-
+  
 
   // GET route for getting all of the workouts in a range
   app.get("/api/workouts/range", function(req, res) {
-    db.WorkoutPlan.findAll().then((result) => {
+    db.WorkoutPlan.find({}).then((result) => {
       return res.json(result)
     })
   });
   
+  // POST route for saving a new workouts
+  app.post("/api/workouts", function(req, res) {
+    const workout = req.body;
+    db.WorkoutPlan.create({ workout }).then((result) => {
+      return res.json(result)
+    })
+  });
+
   // PUT route for updating workouts
-  app.put("/api/workouts/?id=:id", function(req, res) {
-    // Add code here to update a workout using the values in req.body, where the id is equal to
-    // req.body.id and return the result to the user using res.json
+  app.put("/api/workouts/:id", function(req, res) {
     const workout = req.body;
     db.WorkoutPlan.update({ workout }, {
       where: {
-        id: req.params.id
+        _id: req.params.id
       }
     }
     ).then((result) => {
@@ -43,13 +54,6 @@ module.exports = function(app) {
     )
   });
 
-  // POST route for saving a new workouts
-  app.post("/api/workouts", function(req, res) {
-    const workout = req.body;
-    db.WorkoutPlan.create({ workout }).then((result) => {
-      return res.json(result)
-    })
-  });
 
   // DELETE route for deleting workouts
   app.delete("/api/workouts/:id", function(req, res) {
