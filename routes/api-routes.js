@@ -20,14 +20,14 @@ module.exports = function(app) {
     })
   });
 
-  // PUT route for updating posts
-  app.put("/api/workouts", function(req, res) {
+  // PUT route for updating workouts
+  app.put("/api/workouts/?id=:id", function(req, res) {
     // Add code here to update a post using the values in req.body, where the id is equal to
     // req.body.id and return the result to the user using res.json
-    const post = req.body;
-    db.Workout.update({ post }, {
+    const workout = req.body;
+    db.WorkoutPlan.update({ workout }, {
       where: {
-        id: post.id
+        id: req.params.id
       }
     }
     ).then((result) => {
@@ -36,4 +36,24 @@ module.exports = function(app) {
     )
   });
 
+  // POST route for saving a new workouts
+  app.post("/api/workouts", function(req, res) {
+    const workout = req.body;
+    db.WorkoutPlan.create({ workout }).then((result) => {
+      return res.json(result)
+    })
+  });
+
+  // DELETE route for deleting workouts
+  app.delete("/api/workouts/:id", function(req, res) {
+    db.WorkoutPlan.destroy(
+      {
+        where: {
+          id: req.params.id
+        }
+      }
+    ).then((result) => {
+      return res.json(result);
+    })
+  });
 };

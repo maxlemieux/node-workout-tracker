@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static("public"));
+require("./routes/api-routes.js")(app);
 
 const MongoOpts = {
   useNewUrlParser: true,
