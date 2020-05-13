@@ -47,12 +47,6 @@ module.exports = function(app) {
     }
     )
   });
-  // app.put("/api/images/:id", function(req, res) {
-  //   db.Image.updateOne({ _id: req.params.id }, { rating: req.body.rating }).then(function(dbImage) {
-  //     res.json(dbImage);
-  //   });
-  // });
-
 
   // DELETE route for deleting workouts
   app.delete("/api/workouts/:id", function(req, res) {
