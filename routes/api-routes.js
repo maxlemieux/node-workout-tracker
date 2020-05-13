@@ -7,7 +7,7 @@
 
 // Requiring our Todo model
 var db = require("../models");
-// console.log(`WorkoutPlan required: ${db.WorkoutPlan}`);
+// console.log(`Workout required: ${db.Workout}`);
 
 // Routes
 // =============================================================
@@ -15,30 +15,18 @@ module.exports = function(app) {
 
   // GET route for getting all of the workouts
   app.get("/api/workouts", (req, res) => {
-    db.WorkoutPlan.find({})
-      .then(dbWorkoutPlan => {
-        res.json(dbWorkoutPlan);
+    db.Workout.find({})
+      .then(dbWorkout => {
+        res.json(dbWorkout);
       })
       .catch(err => {
         res.json(err);
       });
   });
-
-  // GET route for getting all of the exercises
-  app.get("/api/exercises", (req, res) => {
-    db.Exercise.find({})
-      .then(dbExercise => {
-        res.json(dbExercise);
-      })
-      .catch(err => {
-        res.json(err);
-      });
-  });
-
 
   // GET route for getting all of the workouts in a range
   app.get("/api/workouts/range", function(req, res) {
-    db.WorkoutPlan.find({}).then((result) => {
+    db.Workout.find({}).then((result) => {
       return res.json(result)
     })
   });
@@ -46,15 +34,7 @@ module.exports = function(app) {
   // POST route for saving a new workout
   app.post("/api/workouts", function(req, res) {
     const workout = req.body;
-    db.WorkoutPlan.create({ workout }).then((result) => {
-      return res.json(result)
-    })
-  });
-
-  // POST route for saving a new exercise
-  app.post("/api/exercises", function(req, res) {
-    const exercise = req.body;
-    db.Exercise.create({ exercise }).then((result) => {
+    db.Workout.create({ workout }).then((result) => {
       return res.json(result)
     })
   });
@@ -62,7 +42,8 @@ module.exports = function(app) {
   // PUT route for updating workouts
   app.put("/api/workouts/:id", function(req, res) {
     const workout = req.body;
-    db.WorkoutPlan.update({ workout }, {
+    console.log(workout)
+    db.Workout.update({ workout }, {
       where: {
         _id: req.params.id
       }
@@ -76,7 +57,7 @@ module.exports = function(app) {
 
   // DELETE route for deleting workouts
   app.delete("/api/workouts/:id", function(req, res) {
-    db.WorkoutPlan.destroy(
+    db.Workout.destroy(
       {
         where: {
           id: req.params.id
