@@ -82,19 +82,3 @@ function renderNoWorkoutText() {
 }
 
 initWorkout();
-
-/*
-workouts collection
-_id
-day
-exercises []
-_id type name weight sets reps duration
-toJson method here
-    virtuals: true
-    
-*/
-
-/*
-structure of solved app
-exercises schema is defined as an array of objects each value of the object has its own schema for each key
-*/

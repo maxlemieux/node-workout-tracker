@@ -40,19 +40,18 @@ module.exports = function(app) {
   });
 
   // PUT route for updating workouts
-  app.put("/api/workouts/:id", function(req, res) {
-    const workout = req.body;
-    console.log(workout)
-    db.Workout.update({ workout }, {
-      where: {
-        _id: req.params.id
-      }
-    }
+  app.put("/api/workouts/:id", function(req, res) {  
+    db.Workout.findOneAndUpdate({ _id: req.params.id }, { $push: { exercises: req.body } }
     ).then((result) => {
       return res.json(result)
     }
     )
   });
+  // app.put("/api/images/:id", function(req, res) {
+  //   db.Image.updateOne({ _id: req.params.id }, { rating: req.body.rating }).then(function(dbImage) {
+  //     res.json(dbImage);
+  //   });
+  // });
 
 
   // DELETE route for deleting workouts
