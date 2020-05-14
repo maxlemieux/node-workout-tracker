@@ -4,8 +4,7 @@ module.exports = (app) => {
   app.get('/api/workouts', (req, res) => {
     db.Workout.find({})
       .then((results) => {
-        const dbWorkout = results;
-        res.json(dbWorkout);
+        res.json(results);
       })
       .catch((err) => {
         res.json(err);
@@ -30,7 +29,6 @@ module.exports = (app) => {
 
   app.put('/api/workouts/:id', (req, res) => {
     const exercise = req.body;
-    console.log(`totalDuration: ${db.Workout.totalDuration}`);
     db.Workout.updateOne({ _id: req.params.id }, { $push: { exercises: exercise } })
       .then((result) => res.json(result));
   });
