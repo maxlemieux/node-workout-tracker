@@ -1,47 +1,37 @@
-var db = require("../models");
+const db = require('../models');
 
-module.exports = function(app) {
-  app.get("/api/workouts", (req, res) => {
+module.exports = (app) => {
+  app.get('/api/workouts', (req, res) => {
     db.Workout.find({})
-      .then(dbWorkout => {
+      .then((results) => {
+        const dbWorkout = results;
         res.json(dbWorkout);
       })
-      .catch(err => {
+      .catch((err) => {
         res.json(err);
       });
   });
 
-  app.get("/api/workouts/range", function(req, res) {
+  app.get('/api/workouts/range', (req, res) => {
     db.Workout.find({})
-      .then((dbWorkoutRange) => {
-        return res.json(dbWorkoutRange)
-      })
-      .catch(err => {
+      .then((dbWorkoutRange) => res.json(dbWorkoutRange))
+      .catch((err) => {
         res.json(err);
       });
   });
-  
-  app.post("/api/workouts", function(req, res) {
+
+  app.post('/api/workouts', (req, res) => {
     const workout = req.body;
-    db.Workout.create({ workout }).then((result) => {
-      return res.json(result)
-    });
+    db.Workout.create({ workout }).then((result) => res.json(result))
+      .catch((err) => {
+        res.json(err);
+      });
   });
 
-  app.put("/api/workouts/:id", function(req, res) {  
+  app.put('/api/workouts/:id', (req, res) => {
     const exercise = req.body;
     console.log(`totalDuration: ${db.Workout.totalDuration}`);
     db.Workout.updateOne({ _id: req.params.id }, { $push: { exercises: exercise } })
-      .then((result) => {
-        return res.json(result)
-      }
-    )
+      .then((result) => res.json(result));
   });
-  // app.put("/api/workouts/:id", function(req, res) {  
-  //   db.Workout.findOneAndUpdate({ _id: req.params.id }, { $push: { exercises: req.body } })
-  //     .then((result) => {
-  //       return res.json(result)
-  //     }
-  //   )
-  // });
 };
