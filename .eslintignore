@@ -1,7 +1,3 @@
 node_modules
-public/js/ext/jquery.min.js
-public/index*
-public/api.js
-models/index.js
-models/Workout.js
-public/exercise.js
+public/
+models/
