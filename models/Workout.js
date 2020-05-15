@@ -34,7 +34,20 @@ WorkoutSchema.virtual('totalDuration').get(function () {
     totalDuration += this.exercises[i].duration;
   }
   return totalDuration;
-  // return this.exercises[0];
+});
+
+WorkoutSchema.virtual('dayOfWeek').get(function () {
+  const dayNames = {
+    0: 'Sunday',
+    1: 'Monday',
+    2: 'Tuesday',
+    3: 'Wednesday',
+    4: 'Thursday',
+    5: 'Friday',
+    6: 'Saturday',
+  };
+  const dayOfWeek = this.day.getDay();
+  return dayNames[dayOfWeek];
 });
 
 const Workout = mongoose.model('Workout', WorkoutSchema);
