@@ -50,6 +50,15 @@ WorkoutSchema.virtual('dayOfWeek').get(function () {
   return dayNames[dayOfWeek];
 });
 
+WorkoutSchema.virtual('totalWeight').get(function () {
+  let totalWeight = 0;
+  for (let i=0; i<this.exercises.length; i++) {
+    totalWeight += this.exercises[i].weight;
+  }
+  return totalWeight;
+ 
+})
+
 const Workout = mongoose.model('Workout', WorkoutSchema);
 
 module.exports = Workout;

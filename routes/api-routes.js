@@ -13,11 +13,11 @@ module.exports = (app) => {
 
   app.get('/api/workouts/range', (req, res) => {
     const millisecondsInAWeek = 7 * 60 * 60 * 24 * 1000;
-    // db.Workout.find({day:{$gte: new Date(new Date() - millisecondsInAWeek)}});
-
-    // db.Workout.find({})
-    db.Workout.find({ day: { $gte: new Date(new Date() - millisecondsInAWeek) } }, 'name day exercises totalDuration dayOfWeek')
-      .then((dbWorkoutRange) => res.json(dbWorkoutRange))
+    db.Workout.find({ day: { $gte: new Date(new Date() - millisecondsInAWeek) } }, 'name day exercises totalDuration dayOfWeek totalWeight')
+      .then((dbWorkoutRange) => {
+        console.log(dbWorkoutRange);
+        res.json(dbWorkoutRange);
+      })
       .catch((err) => {
         res.json(err);
       });

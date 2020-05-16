@@ -54,7 +54,8 @@ function populateChart(data) {
         "Wednesday",
         "Thursday",
         "Friday",
-        "Saturday"
+        "Saturday",
+        "Eighthday",
       ],
       datasets: [
         {
