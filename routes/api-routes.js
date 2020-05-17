@@ -63,17 +63,20 @@ module.exports = (app) => {
 
         dbWorkoutRange.forEach((workout) => {
           const dayNumber = workout.day.getDay();
-          rangeResponseArr[dayNumber].totalDuration += workout.totalDuration;
-          rangeResponseArr[dayNumber].totalWeight += workout.totalWeight;
+          rangeResponseArr[dayNumber-1].totalDuration += workout.totalDuration;
+          rangeResponseArr[dayNumber-1].totalWeight += workout.totalWeight;
           workout.exercises.forEach((exercise) => {
-            rangeResponseArr[dayNumber].exerciseNames.push(exercise.name);
+            rangeResponseArr[dayNumber-1].exerciseNames.push(exercise.name);
           });
         });
 
-        if (rangeResponseArr[rangeResponseArr.length-1] === rangeResponseArr[todayOfWeek]) {
+        if (rangeResponseArr[rangeResponseArr.length] === rangeResponseArr[todayOfWeek]) {
           console.log(`the end of the data array is today, ${rangeResponseArr[todayOfWeek].dayOfWeek}`);
+        } else {
+          console.log(`today is ${rangeResponseArr[todayOfWeek].dayOfWeek}, which isn't the end of the array. unshifting to the end`)
+          rangeResponseArr.push(rangeResponseArr.unshift());
+          console.log(rangeResponseArr);
         }
-        // console.log(rangeResponseArr[todayOfWeek].dayOfWeek);
 
         res.json(rangeResponseArr);
       })

@@ -146,7 +146,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: "Exercises Performed"
+        text: "Durations"
       }
     }
   });
@@ -166,7 +166,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: "Exercises Performed"
+        text: "Weight"
       }
     }
   });
@@ -196,7 +196,9 @@ function workoutNames(data) {
   let workouts = [];
 
   data.forEach(workout => {
-    workouts.push(...workout.exerciseNames);
+    if (workout.exerciseNames) {
+      workouts.push(...workout.exerciseNames);
+    }
   });
   
   return workouts;
