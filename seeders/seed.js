@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const db = require('../models');
 
-mongoose.connect('mongodb://localhost/workout', {
+mongoose.connect('mongodb://localhost/exercisedb', {
   useNewUrlParser: true,
   useFindAndModify: false,
 });
@@ -129,7 +129,9 @@ const workoutSeed = [
         type: 'resistance',
         name: 'Bench',
         duration: 30,
-        distance: 2,
+        weight: 300,
+        reps: 10,
+        sets: 4,
       },
     ],
   },

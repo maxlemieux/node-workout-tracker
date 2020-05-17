@@ -12,7 +12,8 @@ module.exports = (app) => {
   });
 
   app.get('/api/workouts/range', (req, res) => {
-    db.Workout.find({ day: { $gte: new Date().setDate(new Date().getDate() - 7) } }, 'name day exercises totalDuration dayOfWeek totalWeight')
+    const milliSecondsInAWeek = 7 * 24 * 60 * 60 * 1000;
+    db.Workout.find({ day: { $gte: new Date() - milliSecondsInAWeek } }, 'name day exercises totalDuration dayOfWeek totalWeight')
       .then((dbWorkoutRange) => {
         const data = [
           {
@@ -68,10 +69,10 @@ module.exports = (app) => {
 
         dbWorkoutRange.forEach((workout) => {
           const dayNumber = workout.day.getDay();
-          data[dayNumber-1].totalDuration += workout.totalDuration;
-          data[dayNumber-1].totalWeight += workout.totalWeight;
+          data[dayNumber - 1].totalDuration += workout.totalDuration;
+          data[dayNumber - 1].totalWeight += workout.totalWeight;
           workout.exercises.forEach((exercise) => {
-            data[dayNumber-1].exerciseNames.push(exercise.name);
+            data[dayNumber - 1].exerciseNames.push(exercise.name);
           });
         });
 

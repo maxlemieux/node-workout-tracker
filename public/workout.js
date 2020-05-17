@@ -1,4 +1,5 @@
 function tallyExercises(exercises) {
+  console.log(exercises)
   const tallied = exercises.reduce((acc, curr) => {
     if (curr.type === 'resistance') {
       acc.totalWeight = (acc.totalWeight || 0) + curr.weight;
@@ -62,7 +63,6 @@ function renderNoWorkoutText() {
 
 async function initWorkout() {
   const lastWorkout = await API.getLastWorkout();
-  console.log('Last workout:', lastWorkout);
   if (lastWorkout) {
     document
       .querySelector("a[href='/exercise?']")
@@ -74,7 +74,6 @@ async function initWorkout() {
       numExercises: lastWorkout.exercises.length,
       ...tallyExercises(lastWorkout.exercises),
     };
-
     renderWorkoutSummary(workoutSummary);
   } else {
     renderNoWorkoutText();
