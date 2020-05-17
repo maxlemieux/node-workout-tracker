@@ -26,8 +26,9 @@ Install the dependencies. You will also need MongoDB.
 
 `npm i`
 
-### Set up your environment
+### (Optional) Set up your environment for development
 
+If you want to add the testing workout records, run this command:
 `npm run seed`
 
 ## Usage
