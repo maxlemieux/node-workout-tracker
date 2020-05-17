@@ -1,3 +1,6 @@
+// const startOfDay = require('date-fns/startOfDay');
+// const endOfDay = require('date-fns/endOfDay');
+
 const db = require('../models');
 
 module.exports = (app) => {
@@ -12,20 +15,19 @@ module.exports = (app) => {
   });
 
   app.get('/api/workouts/range', (req, res) => {
-    let oneWeekAgo = new Date();
+    const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    oneWeekAgo = oneWeekAgo.getTime();
+    // oneWeekAgo = oneWeekAgo.getTime();
     // console.log(oneWeekAgo);
     /* The following query works in Mongo terminal, we need to implement it in Mongoose here.
     db.workouts.find({day: {'$gte':1589140229992}})
     */
-    db.Workout.find({}, (err, docs) => {
-    // db.Workout.find({
-    //   day: {
-    //     $gte: oneWeekAgo,
-    //   },
-    // }, (err, docs) => {
-      // console.log(docs);
+    db.Workout.find({
+      // day: {
+      //   $gte: oneWeekAgo,
+      // },
+    }, (err, docs) => {
+      console.log(docs);
       const data = [
         {
           dayOfWeek: 'Monday',
