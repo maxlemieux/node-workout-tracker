@@ -13,6 +13,7 @@ module.exports = (app) => {
 
   app.get('/api/workouts/range', (req, res) => {
     const millisecondsInAWeek = 7 * 60 * 60 * 24 * 1000;
+    const todayOfWeek = new Date().getDay();
     db.Workout.find({ day: { $gte: new Date(new Date() - millisecondsInAWeek) } }, 'name day exercises totalDuration dayOfWeek totalWeight')
       .then((dbWorkoutRange) => {
         const rangeResponseArr = [
@@ -20,43 +21,59 @@ module.exports = (app) => {
             dayOfWeek: 'Monday',
             totalDuration: 0,
             totalWeight: 0,
+            exerciseNames: [],
           },
           {
             dayOfWeek: 'Tuesday',
             totalDuration: 0,
             totalWeight: 0,
+            exerciseNames: [],
           },
           {
             dayOfWeek: 'Wednesday',
             totalDuration: 0,
             totalWeight: 0,
+            exerciseNames: [],
           },
           {
             dayOfWeek: 'Thursday',
             totalDuration: 0,
             totalWeight: 0,
+            exerciseNames: [],
           },
           {
             dayOfWeek: 'Friday',
             totalDuration: 0,
             totalWeight: 0,
+            exerciseNames: [],
           },
           {
             dayOfWeek: 'Saturday',
             totalDuration: 0,
             totalWeight: 0,
+            exerciseNames: [],
           },
           {
             dayOfWeek: 'Sunday',
             totalDuration: 0,
             totalWeight: 0,
+            exerciseNames: [],
           },
         ];
+
         dbWorkoutRange.forEach((workout) => {
           const dayNumber = workout.day.getDay();
           rangeResponseArr[dayNumber].totalDuration += workout.totalDuration;
           rangeResponseArr[dayNumber].totalWeight += workout.totalWeight;
+          workout.exercises.forEach((exercise) => {
+            rangeResponseArr[dayNumber].exerciseNames.push(exercise.name);
+          });
         });
+
+        if (rangeResponseArr[rangeResponseArr.length-1] === rangeResponseArr[todayOfWeek]) {
+          console.log(`the end of the data array is today, ${rangeResponseArr[todayOfWeek].dayOfWeek}`);
+        }
+        // console.log(rangeResponseArr[todayOfWeek].dayOfWeek);
 
         res.json(rangeResponseArr);
       })
