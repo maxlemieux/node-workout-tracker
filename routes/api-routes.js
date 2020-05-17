@@ -23,9 +23,10 @@ module.exports = (app) => {
     db.workouts.find({day: {'$gte':1589140229992}})
     */
     db.Workout.find({
-      // day: {
-      //   $gte: oneWeekAgo,
-      // },
+      day: {
+        $exists: true,
+        // $gte: '2020-05-10',
+      },
     }, (err, docs) => {
       console.log(docs);
       const data = [
@@ -81,6 +82,9 @@ module.exports = (app) => {
       ];
 
       docs.forEach((workout) => {
+        // console.log(new Date() > new Date(workout.day));
+        // console.log(new Date(workout.day) > oneWeekAgo);
+        console.log(workout.day > oneWeekAgo);
         /* Sunday needs to be day 7 */
         let dayNumber = workout.day.getDay();
         if (dayNumber === 0) dayNumber = 7;
