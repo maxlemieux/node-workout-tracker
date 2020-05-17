@@ -70,12 +70,12 @@ module.exports = (app) => {
           });
         });
 
-        if (rangeResponseArr[rangeResponseArr.length] === rangeResponseArr[todayOfWeek]) {
+        if (rangeResponseArr[rangeResponseArr.length-1] === rangeResponseArr[todayOfWeek]) {
           console.log(`the end of the data array is today, ${rangeResponseArr[todayOfWeek].dayOfWeek}`);
         } else {
-          console.log(`today is ${rangeResponseArr[todayOfWeek].dayOfWeek}, which isn't the end of the array. unshifting to the end`)
-          rangeResponseArr.push(rangeResponseArr.unshift());
-          console.log(rangeResponseArr);
+          console.log(`today is ${rangeResponseArr[todayOfWeek].dayOfWeek}, which isn't the end of the array. unshifting to the end`);
+          rangeResponseArr.unshift(rangeResponseArr.pop());
+          // console.log(rangeResponseArr);
         }
 
         res.json(rangeResponseArr);
