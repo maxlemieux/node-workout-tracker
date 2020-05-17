@@ -53,7 +53,9 @@ WorkoutSchema.virtual('dayOfWeek').get(function () {
 WorkoutSchema.virtual('totalWeight').get(function () {
   let totalWeight = 0;
   for (let i=0; i<this.exercises.length; i++) {
-    totalWeight += this.exercises[i].weight;
+    if (typeof this.exercises[i].weight === 'number') {
+      totalWeight += (this.exercises[i].weight * this.exercises[i].reps * this.exercises[i].sets);
+    }
   }
   return totalWeight;
  

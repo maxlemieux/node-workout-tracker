@@ -14,7 +14,6 @@ module.exports = (app) => {
   app.get('/api/workouts/range', (req, res) => {
     const millisecondsInAWeek = 7 * 60 * 60 * 24 * 1000;
     db.Workout.find({ day: { $gte: new Date(new Date() - millisecondsInAWeek) } }, 'name day exercises totalDuration dayOfWeek totalWeight')
-      .sort([['day', -1]])
       .then((dbWorkoutRange) => {
         const rangeResponseArr = [
           {
@@ -53,35 +52,13 @@ module.exports = (app) => {
             totalWeight: 0,
           },
         ];
-
-        const dayWorkoutDuration = {
-          Monday: 0,
-          Tuesday: 0,
-          Wednesday: 0,
-          Thursday: 0,
-          Friday: 0,
-          Saturday: 0,
-          Sunday: 0,
-        };
-        const dayOfWeekObj = {
-          0: 'Monday',
-          1: 'Tuesday',
-          2: 'Wednesday',
-          3: 'Thursday',
-          4: 'Friday',
-          5: 'Saturday',
-          6: 'Sunday',
-        };
         dbWorkoutRange.forEach((workout) => {
           const dayNumber = workout.day.getDay();
-          const dayOfWeek = dayOfWeekObj[workout.day.getDay()];
           rangeResponseArr[dayNumber].totalDuration += workout.totalDuration;
-
-          // console.log(`dayWorkoutDuration obj entry for ${dayOfWeekObj[dayNumber]}: ${dayWorkoutDuration[dayOfWeek]}`)
+          rangeResponseArr[dayNumber].totalWeight += workout.totalWeight;
         });
-        console.log(rangeResponseArr);
-        // console.log(dbWorkoutRange);
-        res.json(dbWorkoutRange);
+
+        res.json(rangeResponseArr);
       })
       .catch((err) => {
         res.json(err);
