@@ -16,7 +16,7 @@ module.exports = (app) => {
     const todayOfWeek = new Date().getDay();
     db.Workout.find({ day: { $gte: new Date(new Date() - millisecondsInAWeek) } }, 'name day exercises totalDuration dayOfWeek totalWeight')
       .then((dbWorkoutRange) => {
-        const rangeResponseArr = [
+        const data = [
           {
             dayOfWeek: 'Monday',
             totalDuration: 0,
@@ -63,22 +63,24 @@ module.exports = (app) => {
 
         dbWorkoutRange.forEach((workout) => {
           const dayNumber = workout.day.getDay();
-          rangeResponseArr[dayNumber-1].totalDuration += workout.totalDuration;
-          rangeResponseArr[dayNumber-1].totalWeight += workout.totalWeight;
+          data[dayNumber-1].dayNumber = dayNumber;
+          data[dayNumber-1].totalDuration += workout.totalDuration;
+          data[dayNumber-1].totalWeight += workout.totalWeight;
           workout.exercises.forEach((exercise) => {
-            rangeResponseArr[dayNumber-1].exerciseNames.push(exercise.name);
+            data[dayNumber-1].exerciseNames.push(exercise.name);
           });
         });
 
-        if (rangeResponseArr[rangeResponseArr.length-1] === rangeResponseArr[todayOfWeek]) {
-          console.log(`the end of the data array is today, ${rangeResponseArr[todayOfWeek].dayOfWeek}`);
-        } else {
-          console.log(`today is ${rangeResponseArr[todayOfWeek].dayOfWeek}, which isn't the end of the array. unshifting to the end`);
-          rangeResponseArr.unshift(rangeResponseArr.pop());
-          // console.log(rangeResponseArr);
+        let arrayRotation = true;
+        while (arrayRotation === true) {
+          if (data[6].dayNumber === Date().getDay()) {
+            arrayRotation = false;
+          } else {
+            data.unshift(data.pop());
+          }
         }
 
-        res.json(rangeResponseArr);
+        res.json(data);
       })
       .catch((err) => {
         res.json(err);
