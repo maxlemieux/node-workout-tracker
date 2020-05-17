@@ -13,48 +13,54 @@ module.exports = (app) => {
 
   app.get('/api/workouts/range', (req, res) => {
     const millisecondsInAWeek = 7 * 60 * 60 * 24 * 1000;
-    const todayOfWeek = new Date().getDay();
     db.Workout.find({ day: { $gte: new Date(new Date() - millisecondsInAWeek) } }, 'name day exercises totalDuration dayOfWeek totalWeight')
       .then((dbWorkoutRange) => {
         const data = [
           {
             dayOfWeek: 'Monday',
+            dayNumber: 1,
             totalDuration: 0,
             totalWeight: 0,
             exerciseNames: [],
           },
           {
             dayOfWeek: 'Tuesday',
+            dayNumber: 2,
             totalDuration: 0,
             totalWeight: 0,
             exerciseNames: [],
           },
           {
             dayOfWeek: 'Wednesday',
+            dayNumber: 3,
             totalDuration: 0,
             totalWeight: 0,
             exerciseNames: [],
           },
           {
             dayOfWeek: 'Thursday',
+            dayNumber: 4,
             totalDuration: 0,
             totalWeight: 0,
             exerciseNames: [],
           },
           {
             dayOfWeek: 'Friday',
+            dayNumber: 5,
             totalDuration: 0,
             totalWeight: 0,
             exerciseNames: [],
           },
           {
             dayOfWeek: 'Saturday',
+            dayNumber: 6,
             totalDuration: 0,
             totalWeight: 0,
             exerciseNames: [],
           },
           {
             dayOfWeek: 'Sunday',
+            dayNumber: 7,
             totalDuration: 0,
             totalWeight: 0,
             exerciseNames: [],
@@ -63,7 +69,6 @@ module.exports = (app) => {
 
         dbWorkoutRange.forEach((workout) => {
           const dayNumber = workout.day.getDay();
-          data[dayNumber-1].dayNumber = dayNumber;
           data[dayNumber-1].totalDuration += workout.totalDuration;
           data[dayNumber-1].totalWeight += workout.totalWeight;
           workout.exercises.forEach((exercise) => {
@@ -71,13 +76,10 @@ module.exports = (app) => {
           });
         });
 
-        let arrayRotation = true;
-        while (arrayRotation === true) {
-          if (data[6].dayNumber === Date().getDay()) {
-            arrayRotation = false;
-          } else {
-            data.unshift(data.pop());
-          }
+        /* Arrange with today at the end of the array */
+        const toDay = new Date();
+        if (data[6].dayNumber !== toDay.getDay()) {
+          data.unshift(data.pop());
         }
 
         res.json(data);
