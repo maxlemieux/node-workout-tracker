@@ -12,10 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3",
+    "express": "^4.19.2",
     "lodash": "^4.17.21",
     "mongojs": "^3.1.0",
-    "mongoose": "^5.9.14",
+    "mongoose": "^5.13.20",
     "morgan": "^1.9.1",
     "mquery": "^3.2.2"
   }
